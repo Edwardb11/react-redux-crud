@@ -13,13 +13,14 @@ const TaskList = () => {
     <div>
       <header>
         <h1>Tareas {tasks.length}</h1>
-        <Link to="/createTask">AA</Link>
+        <Link to="/createTask">Crear nueva tarea</Link>
       </header>
       {tasks.map((task) => (
         <div key={task.id}>
           <h3>{task.title}</h3>
           <p>{task.description}</p>
           <button onClick={() => handleDelete(task.id)}>Eliminar</button>
+          <Link to={`/editTask/${task.id}`}>Editar</Link>
         </div>
       ))}
     </div>

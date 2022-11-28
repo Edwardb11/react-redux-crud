@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
-import { addTask } from "../features/tasks/taskSlice";
+import { addTask, updateTask } from "../features/tasks/taskSlice";
 
 const TaskForm = () => {
-  /* A hook that allows us to dispatch actions to the store. */
+  // hooks
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+  const params = useParams();
+  const tasks = useSelector((state) => state.tasks);
 
   /* Setting the initial state of the task object. */
   const [task, setTasks] = useState({
@@ -35,21 +36,34 @@ const TaskForm = () => {
    */
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    dispatch(addTask({ ...task, id: uuid() }));
+    if (params.id) {
+      dispatch(updateTask(task));
+    } else {
+      dispatch(addTask({ ...task, id: uuid() }));
+    }
     navigate("/");
   };
+
+  useEffect(() => {
+    if (params.id) {
+      setTasks(tasks.find((task) => task.id === params.id));
+    }
+    return () => {};
+  }, [setTasks, params.id, tasks]);
+
   return (
     <form onSubmit={handleSubmit}>
       <input
         name="title"
         type="text"
         placeholder="Titulo"
+        value={task.title}
         onChange={handleChange}
       />
       <textarea
         name="description"
         placeholder="descripcion"
+        value={task.description}
         onChange={handleChange}
       />
       <button>Guardar</button>
