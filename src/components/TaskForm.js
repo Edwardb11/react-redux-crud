@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import { addTask } from "../features/tasks/taskSlice";
 
 const TaskForm = () => {
   /* A hook that allows us to dispatch actions to the store. */
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   /* Setting the initial state of the task object. */
   const [task, setTasks] = useState({
@@ -34,6 +37,7 @@ const TaskForm = () => {
     e.preventDefault();
 
     dispatch(addTask({ ...task, id: uuid() }));
+    navigate("/");
   };
   return (
     <form onSubmit={handleSubmit}>
