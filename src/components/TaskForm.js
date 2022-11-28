@@ -52,21 +52,27 @@ const TaskForm = () => {
   }, [setTasks, params.id, tasks]);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="bg-teal-800 max-w-sm p-4">
+      <label className="block text-sm font-bold">Tarea:</label>{" "}
       <input
         name="title"
         type="text"
         placeholder="Titulo"
         value={task.title}
         onChange={handleChange}
+        className="w-full p-2 rounded-md bg-teal-600 mb-2"
       />
+      <label>Descripcion:</label>
       <textarea
         name="description"
         placeholder="descripcion"
         value={task.description}
         onChange={handleChange}
+        className="w-full p-2 rounded-md bg-teal-600 mb-2"
       />
-      <button>Guardar</button>
+      <button type="submit" className="bg-indigo-600 px-2 py-1">
+        Guardar
+      </button>
     </form>
   );
 };
